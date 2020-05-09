@@ -8,14 +8,19 @@ class ContentLayout extends React.Component {
         this.state = {contentType: "zero-state"};
       }
     func = ()=>{
-        if(this.props.contentType==="zero-state"){
-          return <div>
-            <p className="text1">Search for breaking news from across the world, across the times.</p>
-            <img alt="zero-state-img" src="zero-state.png" className="image1" style={{marginTop:'549px',marginLeft:'877px'}}></img>
-            </div>
-        } else{
-          return <button>Login</button>
-        }
+      if(this.props.contentType==="zero-state"){
+        return <img alt="zero-state-img" src="zero-state.png" height= "35%" style={{marginTop:'30%',marginLeft:'40%'}}></img>
+      } else if(this.props.contentType==="Dashboard"){
+        return  <h1>Graph and table here</h1>
+      }else if(this.props.contentType==="Articles"){
+        return <h1>Articles here</h1>
+      }else if(this.props.contentType==="Analytics"){
+        return  <h1>Analytics here</h1>
+      }else if(this.props.contentType==="Messages"){
+        return  <h1>Messages here</h1>
+      }else if(this.props.contentType==="Calendar"){
+        return <h1>Calendar here</h1>
+      }
     }
     render(){
         return (
