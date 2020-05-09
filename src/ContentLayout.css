@@ -1,0 +1,20 @@
+.text1 {
+    top: 298px;
+    left: 563px;
+    width: 1058px;
+    height: 203px;
+    text-align: center;
+    font: Bold 60px/71px Roboto;
+    letter-spacing: 0px;
+    color: #7B8C92;
+    opacity: 1;
+}
+
+.image1 {
+    top: 549px;
+    left: 877px;
+    width: 429px;
+    height: 365px;
+    background: transparent 0% 0% no-repeat padding-box;
+    opacity: 1;
+}

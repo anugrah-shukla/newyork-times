@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import {Container,Row,Col} from 'react-bootstrap'
-import ContentLayout from './ContentLayout'
-import SearchBar from './SearchBar'
-import SideBar from './SideBar'
+import {Container,Row,Col} from 'react-bootstrap';
+import ContentLayout from './ContentLayout';
+import SearchBar from './SearchBar';
+import SideBar from './SideBar';
 class App extends React.Component {
   constructor(){
     super();

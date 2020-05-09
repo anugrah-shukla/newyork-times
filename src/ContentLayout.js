@@ -1,5 +1,7 @@
 import './App.css';
-import React from 'react'
+import React from 'react';
+import './ContentLayout.css'
+
 class ContentLayout extends React.Component {
     constructor() {
         super();
@@ -7,7 +9,10 @@ class ContentLayout extends React.Component {
       }
     func = ()=>{
         if(this.props.contentType==="zero-state"){
-          return <img alt="zero-state-img" src="zero-state.png" height= "35%" style={{marginTop:'30%',marginLeft:'40%'}}></img>
+          return <div>
+            <p className="text1">Search for breaking news from across the world, across the times.</p>
+            <img alt="zero-state-img" src="zero-state.png" className="image1" style={{marginTop:'549px',marginLeft:'877px'}}></img>
+            </div>
         } else{
           return <button>Login</button>
         }
