@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,35 +9,42 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  { id: 'published_date', label: 'Published Date', minWidth: 170 },
+  { id: 'headline', label: 'Headline', minWidth: 100 },
   {
-    id: 'population',
-    label: 'Population',
+    id: 'summary',
+    label: 'Summary',
     minWidth: 170,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
+    id: 'url',
+    label: 'URL',
     minWidth: 170,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'density',
-    label: 'Density',
+    id: 'source',
+    label: 'Source',
     minWidth: 170,
     align: 'right',
     format: (value) => value.toFixed(2),
   },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+function createData(published_date, headline, summary, url, source) {
+  return { published_date, headline, summary, url, source };
 }
 
 const rows = [
@@ -86,7 +93,7 @@ export default function StickyHeadTable() {
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table" >
           <TableHead>
-            <TableRow>
+            <StyledTableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
@@ -96,12 +103,12 @@ export default function StickyHeadTable() {
                   {column.label}
                 </TableCell>
               ))}
-            </TableRow>
+            </StyledTableRow>
           </TableHead>
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
@@ -110,7 +117,7 @@ export default function StickyHeadTable() {
                       </TableCell>
                     );
                   })}
-                </TableRow>
+                </StyledTableRow>
               );
             })}
           </TableBody>
