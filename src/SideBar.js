@@ -5,7 +5,7 @@ import React from 'react'
 class SideBar extends React.Component {
     constructor(){
         super();
-        this.state = {activeButton:"zero-state"};
+        this.state = {activeButton:"Dashboard"};
     }
     
     render() {
