@@ -89,7 +89,7 @@ export default function StickyHeadTable() {
   };
 
   return (
-    <Paper className={classes.root} style={{width:'96%',marginLeft:'2%',height:'100%'}}>
+    <Paper className={classes.root} style={{width:'96%',marginTop:"2%",marginLeft:'3.5%',height:'100%'}}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table" >
           <TableHead>
