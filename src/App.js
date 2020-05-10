@@ -34,7 +34,7 @@ class App extends React.Component {
     var data = response.data.response.docs;
     var rows=[];
     for(var i=0;i<data.length;i++){
-      var d = this.createData(data[i].pub_date.split('T')[0],data[i].headline.main,data[i].abstract.substring(0,120)+"...",<a href={data[i].web_url} target="_blank">Go to article</a>,data[i].source);
+      var d = this.createData(data[i].pub_date.split('T')[0],data[i].headline.main,data[i].abstract.substring(0,90)+"...",<a href={data[i].web_url} target="_blank">Go to article</a>,data[i].source);
       console.log("pushing: ",d);
       rows.push(d);
     }
@@ -44,7 +44,7 @@ class App extends React.Component {
     return (
       <Container fluid className="MainPage">
     <Row className="top-bar">
-      <Col className="logo-bar" md={{span: 2}}><img alt='logo' src='nytimes.png' width="80%"></img></Col>
+      <Col className="logo-bar" md={{span: 2}}><img alt='logo' src='nytimes.png'  height="100%"></img></Col>
       <Col className="search-bar" md={{span: 10}}><SearchBar setSearchKeyword={this.setSearchKeyword}/></Col>
     </Row>
     <Row className="bottom-layout">

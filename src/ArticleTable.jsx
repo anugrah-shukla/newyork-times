@@ -83,7 +83,7 @@ export default  function StickyHeadTable(args) {
     var data = response.data.response.docs;
     rows=[];
     for(var i=0;i<data.length;i++){
-      var d = createData(data[i].pub_date.split('T')[0],data[i].headline.main,data[i].abstract.substring(0,120)+"...",<a href={data[i].web_url} target="_blank">Go to article</a>,data[i].source);
+      var d = createData(data[i].pub_date.split('T')[0],data[i].headline.main,data[i].abstract.substring(0,90)+"...",<a href={data[i].web_url} target="_blank">Go to article</a>,data[i].source);
       console.log("pushing: ",d);
       rows.push(d);   
     }
