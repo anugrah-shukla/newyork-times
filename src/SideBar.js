@@ -21,7 +21,7 @@ class SideBar extends React.Component {
   }
     render() {
       return (
-        <div>
+        <div style={{marginTop:'13%'}}>
             <button className='SideBarTitles' id='#button1' onClick= {()=>{this.handleButtonDisplay(1);this.props.changeButton('Dashboard')}} >Dashboard </button>
             <button className='SideBarTitles' id='#button2' onClick= {()=>{this.handleButtonDisplay(2);this.props.changeButton('Articles')}}>Articles</button>
             <button className='SideBarTitles' id='#button3' onClick= {()=>{this.handleButtonDisplay(3);this.props.changeButton('Analytics')}}>Analytics</button>
