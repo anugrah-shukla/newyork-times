@@ -63,6 +63,7 @@ const useStyles = makeStyles({
   },
 });
 
+var currentKeyword='';
 export default  function StickyHeadTable(args) {
   
   console.log("show me searchkeyword: ",args.searchkeyword);
@@ -88,14 +89,11 @@ export default  function StickyHeadTable(args) {
     }
     setPage(newPage);
   };
-  if(rows.length==0){
+  if(rows.length==0 || currentKeyword!==args.searchkeyword){
+    currentKeyword=args.searchkeyword;
     rows= args.defaultRows;
   }
   console.log("assigning default values to rows");
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
   
   return (
     <Paper className={classes.root} style={{width:'96%',marginTop:"2%",marginLeft:'3.5%',height:'100%'}}>
