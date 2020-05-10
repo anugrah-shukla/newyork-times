@@ -48,7 +48,6 @@ const columns = [
 ];
 
 function createData(published_date, headline, summary, url, source) {
-  console.log("calling create data: ",{ published_date, headline, summary, url, source });
   return { published_date, headline, summary, url, source };
 }
 
@@ -66,34 +65,29 @@ const useStyles = makeStyles({
 var currentKeyword='';
 export default  function StickyHeadTable(args) {
   
-  console.log("show me searchkeyword: ",args.searchkeyword);
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [setPage] = React.useState(0);
+  const [rowsPerPage] = React.useState(10);
   
   const handleChangePage = async (event, newPage) => {
-    console.log("new page is: ",newPage);
     newPage--;
     //update rows variable
     let response = await axios({
       method: 'get',
       url: 'https://api.nytimes.com/svc/search/v2/articlesearch.json?fq='+args.searchkeyword+'&facet=true&begin_year=2011&api-key=xrp7NPZMKRQ3U8nmHM5UMXu2XwBKYXei&sort=newest&page='+newPage+'&fl=web_url&fl=pub_date&fl=headline&fl=abstract&fl=source'
     });
-    console.log("new rows is supposed to be: ",response.data.response.docs);
     var data = response.data.response.docs;
     rows=[];
     for(var i=0;i<data.length;i++){
       var d = createData(data[i].pub_date.split('T')[0],data[i].headline.main,data[i].abstract.substring(0,90)+"...",<a href={data[i].web_url} target="_blank">Go to article</a>,data[i].source);
-      console.log("pushing: ",d);
       rows.push(d);   
     }
     setPage(newPage);
   };
-  if(rows.length==0 || currentKeyword!==args.searchkeyword){
+  if(rows.length===0 || currentKeyword!==args.searchkeyword){
     currentKeyword=args.searchkeyword;
     rows= args.defaultRows;
   }
-  console.log("assigning default values to rows");
   
   return (
     <Paper className={classes.root} style={{width:'96%',marginTop:"2%",marginLeft:'3.5%',height:'100%'}}>

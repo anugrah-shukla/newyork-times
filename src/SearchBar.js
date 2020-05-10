@@ -12,7 +12,6 @@ class SearchBar extends React.Component {
       callback(document.getElementById("keyword").value,"search-results");
     }
     render() {
-      console.log("renfering some stuff again!");
       return (
         <form className='SearchForm'>
         <input className='SearchBox' type="text" placeholder="Search.." id='keyword'/>

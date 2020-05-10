@@ -9,15 +9,15 @@ class ContentLayout extends React.Component {
       }
     textFunction = (textNumber)=>{
       var text;
-      if (textNumber==0){
+      if (textNumber===0){
         text = "Search for breaking news from across the world, across the times.";
-      }else if (textNumber==1){
+      }else if (textNumber===1){
         text = "Sorry, no articles to display at the moment.";
-      }else if (textNumber==2){
+      }else if (textNumber===2){
         text = "Sorry, no analytics to display at the moment.";
-      }else if (textNumber==3){
+      }else if (textNumber===3){
         text = "Sorry, no messages to display at the moment.";
-      }else if (textNumber==4){
+      }else if (textNumber===4){
         text = "Sorry, no calendar to display at the moment.";
       }
       return (<div style={{height:'100%'}}>

@@ -1,3 +1,9 @@
+
+Entry point is index.js
+All dependencies are included in package.json file.
+To run the app in devlopment mode: npm run start
+If any issues to run the app, visit http://13.127.247.4:9262/ for a demo.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
