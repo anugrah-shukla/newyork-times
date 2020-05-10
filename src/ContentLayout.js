@@ -11,7 +11,7 @@ class ContentLayout extends React.Component {
     func = ()=>{
         if(this.props.contentType==="search-results"){
           return (<div style={{height:'100%'}}>
-                    <div style={{height:'90%'}}><ArticleTable searchkeyword={this.props.searchkeyword}/></div> 
+                    <div style={{height:'90%'}}><ArticleTable searchkeyword={this.props.searchkeyword} defaultRows={this.props.defaultRows}/></div> 
                     {/* <div style={{height:'40%',marginTop:'4%'}}><Paper/></div> */}
                  </div>);
         }

@@ -25,21 +25,24 @@ const columns = [
     id: 'summary',
     label: 'Summary',
     minWidth: 170,
-    align: 'right',
+    maxWidth: 500,
+    align: 'left',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'url',
     label: 'URL',
     minWidth: 170,
-    align: 'right',
+    maxWidth: 500,
+    align: 'left',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'source',
     label: 'Source',
     minWidth: 170,
-    align: 'right',
+    maxWidth: 500,
+    align: 'left',
     format: (value) => value.toFixed(2),
   },
 ];
@@ -76,29 +79,28 @@ const useStyles = makeStyles({
   },
 });
 
-const setTableData = async (page,args)=>{
-  let response = await axios({
-    method: 'get',
-    url: 'https://api.nytimes.com/svc/search/v2/articlesearch.json?fq='+args.searchkeyword+'&facet=true&begin_year=2011&api-key=xrp7NPZMKRQ3U8nmHM5UMXu2XwBKYXei&sort=newest&page='+page+'&fl=web_url&fl=pub_date&fl=headline&fl=abstract&fl=source'
-  });
-  console.log("new rows is supposed to be: ",response.data.response.docs);
-  var data = response.data.response.docs;
-  var resultRows=[];
-  for(var i=0;i<data.length;i++){
-    var d = createData(data[i].pub_date,data[i].headline.main,data[i].abstract,data[i].web_url,data[i].source);
-    console.log("pushing: ",d);
-    resultRows.push(d);
-  }
-  return resultRows;
-}
-export default async function StickyHeadTable(args) {
+export default  function StickyHeadTable(args) {
+  
   console.log("show me searchkeyword: ",args.searchkeyword);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  
   const handleChangePage = async (event, newPage) => {
-    rows = await setTableData(newPage,args);
+    console.log("new page is: ",newPage);
+    //update rows variable
+    let response = await axios({
+      method: 'get',
+      url: 'https://api.nytimes.com/svc/search/v2/articlesearch.json?fq='+args.searchkeyword+'&facet=true&begin_year=2011&api-key=xrp7NPZMKRQ3U8nmHM5UMXu2XwBKYXei&sort=newest&page='+newPage+'&fl=web_url&fl=pub_date&fl=headline&fl=abstract&fl=source'
+    });
+    console.log("new rows is supposed to be: ",response.data.response.docs);
+    var data = response.data.response.docs;
+    rows=[];
+    for(var i=0;i<data.length;i++){
+      var d = createData(data[i].pub_date,data[i].headline.main,data[i].abstract,data[i].web_url,data[i].source);
+      console.log("pushing: ",d);
+      rows.push(d);
+    }
     setPage(newPage);
   };
 
@@ -106,7 +108,7 @@ export default async function StickyHeadTable(args) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  rows = await setTableData(0,args);
+  rows= args.defaultRows;
   return (
     <Paper className={classes.root} style={{width:'96%',marginTop:"2%",marginLeft:'3.5%',height:'100%'}}>
       <TableContainer className={classes.container}>
