@@ -4,33 +4,53 @@ import {Container,Row,Col} from 'react-bootstrap';
 import ContentLayout from './ContentLayout';
 import SearchBar from './SearchBar';
 import SideBar from './SideBar';
+import axios from 'axios';
 class App extends React.Component {
   constructor(){
     super();
     this.state = {
       activeButton:"zero-state",
-      searchKeyword:''
+      searchKeyword:'',
+      rows:[]
     };
   }
   changeButton =(activeButton)=>{
     console.log("inside app.js  change button function: ",activeButton);
     this.setState({activeButton:activeButton});
   }
-  setSearchKeyword=(searchKeyword,activeButton)=>{
+  createData= (published_date, headline, summary, url, source) =>{
+    console.log("calling create data: ",{ published_date, headline, summary, url, source });
+    return { published_date, headline, summary, url, source };
+  }
+
+  setSearchKeyword=async (searchKeyword,activeButton)=>{
+
     console.log("inside app.js set search keyword function: ",searchKeyword);
-    this.setState({searchKeyword:searchKeyword,activeButton:activeButton});
+    let response = await axios({
+      method: 'get',
+      url: 'https://api.nytimes.com/svc/search/v2/articlesearch.json?fq='+searchKeyword+'&facet=true&begin_year=2011&api-key=xrp7NPZMKRQ3U8nmHM5UMXu2XwBKYXei&sort=newest&page='+0+'&fl=web_url&fl=pub_date&fl=headline&fl=abstract&fl=source'
+    });
+    console.log("new rows is supposed to be: ",response.data.response.docs);
+    var data = response.data.response.docs;
+    var rows=[];
+    for(var i=0;i<data.length;i++){
+      var d = this.createData(data[i].pub_date.split('T')[0],data[i].headline.main,data[i].abstract.substring(0,120)+"...",<a href={data[i].web_url} target="_blank">Go to article</a>,data[i].source);
+      console.log("pushing: ",d);
+      rows.push(d);
+    }
+    this.setState({searchKeyword:searchKeyword,activeButton:activeButton,rows:rows});
   }
   render() {
     return (
       <Container fluid className="MainPage">
     <Row className="top-bar">
-      <Col className="logo-bar" md={{span: 3}}><img alt='logo' src='nytimes.png' width="80%"></img></Col>
-      <Col className="search-bar" md={{span: 9}}><SearchBar setSearchKeyword={this.setSearchKeyword}/></Col>
+      <Col className="logo-bar" md={{span: 2}}><img alt='logo' src='nytimes.png' width="80%"></img></Col>
+      <Col className="search-bar" md={{span: 10}}><SearchBar setSearchKeyword={this.setSearchKeyword}/></Col>
     </Row>
     <Row className="bottom-layout">
-      <Col className="side-bar-layout"  md={{span: 3}}> <SideBar  changeButton={this.changeButton}/></Col>
-      <Col className="content-layout" md={{span: 9}}>
-        <ContentLayout contentType={this.state.activeButton} searchkeyword={this.state.searchKeyword}/>
+      <Col className="side-bar-layout"  md={{span: 2}}> <SideBar  changeButton={this.changeButton}/></Col>
+      <Col className="content-layout" md={{span: 10}}>
+        <ContentLayout contentType={this.state.activeButton} searchkeyword={this.state.searchKeyword} defaultRows={this.state.rows}/>
       </Col>
     </Row>
   </Container>
