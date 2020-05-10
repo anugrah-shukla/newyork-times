@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
@@ -44,10 +45,11 @@ const columns = [
 ];
 
 function createData(published_date, headline, summary, url, source) {
+  console.log("calling create data: ",{ published_date, headline, summary, url, source });
   return { published_date, headline, summary, url, source };
 }
 
-const rows = [
+var rows = [
   createData('India', 'IN', 1324171354, 3287263),
   createData('China', 'CN', 1403500365, 9596961),
   createData('Italy', 'IT', 60483973, 301340),
@@ -74,13 +76,29 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StickyHeadTable(args) {
+const setTableData = async (page,args)=>{
+  let response = await axios({
+    method: 'get',
+    url: 'https://api.nytimes.com/svc/search/v2/articlesearch.json?fq='+args.searchkeyword+'&facet=true&begin_year=2011&api-key=xrp7NPZMKRQ3U8nmHM5UMXu2XwBKYXei&sort=newest&page='+page+'&fl=web_url&fl=pub_date&fl=headline&fl=abstract&fl=source'
+  });
+  console.log("new rows is supposed to be: ",response.data.response.docs);
+  var data = response.data.response.docs;
+  var resultRows=[];
+  for(var i=0;i<data.length;i++){
+    var d = createData(data[i].pub_date,data[i].headline.main,data[i].abstract,data[i].web_url,data[i].source);
+    console.log("pushing: ",d);
+    resultRows.push(d);
+  }
+  return resultRows;
+}
+export default async function StickyHeadTable(args) {
   console.log("show me searchkeyword: ",args.searchkeyword);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = async (event, newPage) => {
+    rows = await setTableData(newPage,args);
     setPage(newPage);
   };
 
@@ -88,7 +106,7 @@ export default function StickyHeadTable(args) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  rows = await setTableData(0,args);
   return (
     <Paper className={classes.root} style={{width:'96%',marginTop:"2%",marginLeft:'3.5%',height:'100%'}}>
       <TableContainer className={classes.container}>
@@ -107,7 +125,7 @@ export default function StickyHeadTable(args) {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+            {rows.slice(0,rowsPerPage).map((row) => {
               return (
                 <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
